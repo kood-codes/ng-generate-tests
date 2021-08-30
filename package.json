@@ -1,0 +1,32 @@
+{
+  "name": "ng-generate-tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/main.js",
+  "types": "dist/main.d.ts",
+  "scripts": {
+    "build-ts": "tsc",
+    "watch-ts": "tsc -w",
+    "build": "npm run build-ts && npm run copy-assets",
+    "schematics": "schematics",
+    "copy-assets": "cp -R ./src/templates/ ./dist/templates/",
+    "generate-tests": "node dist/cli"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@angular-devkit/schematics-cli": "^0.803.19",
+    "@types/glob": "^7.1.1",
+    "@types/node": "^12.12.11",
+    "ejs": "^2.7.4",
+    "fs-extra": "^8.1.0",
+    "glob": "^7.1.6",
+    "ts-morph": "^5.0.0",
+    "typescript": "^3.7.2"
+  },
+  "devDependencies": {
+    "@types/ejs": "^2.6.3",
+    "@types/fs-extra": "^8.0.1"
+  }
+}

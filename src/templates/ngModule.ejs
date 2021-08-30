@@ -1,0 +1,18 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { <%-name%> } from './<%-fileName%>';
+
+describe('<%-name%>', () => {
+  let module: <%-name%>;
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [<%-name%>],
+      schemas: [NO_ERRORS_SCHEMA],
+    });
+    module = TestBed.get(<%-name%>);
+  });
+
+  it('can load instance', () => {
+    expect(module).toBeTruthy();
+  });
+});

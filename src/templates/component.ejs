@@ -1,0 +1,49 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { of, Subject } from 'rxjs';
+<% imports.forEach(importItem => { %>
+import { <%-importItem.import%> } from '<%-importItem.path%>';<%});%>
+import { <%-name%> } from './<%-fileName%>';
+<% stub.forEach(item => { %>
+const <%-item%>;
+<%});%>
+
+describe('<%= name %>', () => {
+  let component: <%= name %>;
+  let fixture: ComponentFixture<<%= name %>>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ <%= name %> ],
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: [
+      <% providers.forEach(provider => { %><%-provider%>,
+      <%});%>]
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(<%= name %>);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+<% Object.keys(methods).forEach(methodName => {var methodDetails = methods[methodName];%>
+  describe('<%-methodName%>', () => {
+    it('makes expected calls', () => {<% var paramNames = []; methodDetails.params.forEach(param => { paramNames.push(param.name);%>
+      const <%-param.value%>;<%});%><% Object.keys(methodDetails.spies).forEach(spyProperty => { %>
+      const injected<%-spyProperty%>: <%-spyProperty%> = TestBed.inject(<%-spyProperty%>);<% methodDetails.spies[spyProperty].forEach(({spyFn}) => { %>
+      spyOn(injected<%-spyProperty%>, '<%-spyFn%>');
+<%});%><%});%>
+      component.<%-methodName%>(<%-paramNames.join(", ")%>);
+<% Object.keys(methodDetails.spies).forEach(spyProperty => { %><% methodDetails.spies[spyProperty].forEach(({spyFn}) => { %>
+      expect(injected<%-spyProperty%>.<%-spyFn%>).toHaveBeenCalled();<%});%><%});%>
+    });
+  });
+<%});%>
+});
